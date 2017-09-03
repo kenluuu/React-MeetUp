@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import firebase from 'firebase';
 import * as actions from '../actions';
-import { TextField, RaisedButton } from 'material-ui';
+import { TextField, RaisedButton, CircularProgress } from 'material-ui';
 import '../styles/signin.css';
 class Auth extends Component {
   constructor() {
@@ -47,7 +47,9 @@ class Auth extends Component {
 
   onRegisterClick() {
     const { email, password } = this.props;
-    this.props.signupUser({ email, password });
+    this.props.signupUser({ email, password }, () => {
+      this.props.history.push('');
+    });
   }
 
   onSigninClick() {
@@ -55,6 +57,14 @@ class Auth extends Component {
     this.props.signinUser({ email, password }, () => {
       this.props.history.push('');
     });
+  }
+
+  renderSpinner() {
+    if (this.props.loading) {
+      return(
+        <CircularProgress />
+      );
+    }
   }
 
   render() {
@@ -68,12 +78,14 @@ class Auth extends Component {
           hintText="First Name"
           style={{ display: show }}
           floatingLabelText="Please Enter First Name"
+          disabled={this.props.loading}
           onChange={(event, value) => this.props.inputChange({ prop: 'firstName', value })}
           value={this.props.firstName}
         />
         <br />
         <TextField
           hintText="Last Name"
+          disabled={this.props.loading}
           style={{display: show}}
           floatingLabelText="Please Enter Your Last Name"
           onChange={(event, value) => this.props.inputChange({ prop: 'lastName', value })}
@@ -82,6 +94,7 @@ class Auth extends Component {
         <br />
         <TextField
           hintText="Email"
+          disabled={this.props.loading}
           floatingLabelText="Please Enter Your Email"
           onChange={(event, value) => this.props.inputChange({ prop: 'email', value })}
           value={this.props.email}
@@ -89,6 +102,7 @@ class Auth extends Component {
         <br />
         <TextField
           hintText="Password"
+          disabled={this.props.loading}
           type="password"
           floatingLabelText="Please Enter Your Password"
           onChange={(event, value) => this.props.inputChange({ prop: 'password', value })}
@@ -97,15 +111,16 @@ class Auth extends Component {
 
         {this.state.show ? this.renderRegisterBtn() : this.renderSigninBtn()}
         <br />
-
+        <span id="error">{this.props.error}</span>
+        {this.renderSpinner()}
         {this.state.show ? this.renderSignin() : this.renderCreate()}
       </div>
     )
   }
 }
 function mapStateToProps({ auth }) {
-  const { firstName, lastName, email, password, user } = auth;
-  return { firstName, lastName, email, password, user };
+  const { firstName, lastName, email, password, user, error, loading } = auth;
+  return { firstName, lastName, email, password, user, error, loading };
 }
 const styles = {
   btnStyle: {

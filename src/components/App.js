@@ -7,7 +7,6 @@ import firebase from 'firebase';
 
 import config from '../config';
 import Home from './Home';
-import SignIn from './SignIn';
 import Auth from './Auth';
 import Navbar from './Navbar';
 import '../styles/app.css';
@@ -15,7 +14,6 @@ import '../styles/app.css';
 class App extends Component {
   componentWillMount() {
     firebase.initializeApp(config);
-    console.log(localStorage.getItem('uid'));
     this.props.getCurrentUserID(localStorage.getItem('uid'));
   }
   render() {
@@ -25,7 +23,6 @@ class App extends Component {
             <MuiThemeProvider>
               <div>
                 <Navbar />
-                <Route path="/signin" component={SignIn}/>
                 <Route path="/auth" component={Auth} />
                 <Route exact path="/" component={Home} />
               </div>

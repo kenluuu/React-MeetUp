@@ -18,3 +18,12 @@
   cursor: pointer;
   text-decoration: underline;
 }
+
+#error {
+  color: red;
+}
+
+#home {
+  position: absolute;
+  left: 50px;
+}
