@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import firebase from 'firebase';
 import * as actions from '../actions';
 import { TextField, RaisedButton } from 'material-ui';
 import '../styles/signin.css';
@@ -8,6 +9,7 @@ class Auth extends Component {
     super();
     this.state = { show: false };
   }
+
   onClick() {
     this.setState({ show: !this.state.show})
   }
@@ -21,7 +23,42 @@ class Auth extends Component {
       <p id="create" onClick={this.onClick.bind(this)}>Sign In</p>
     )
   }
+  renderRegisterBtn() {
+    return (
+      <RaisedButton
+        primary={true}
+        label="Create Account"
+        style={styles.btnStyle}
+        onClick={this.onRegisterClick.bind(this)}
+      />
+    );
+  }
+
+  renderSigninBtn() {
+    return (
+      <RaisedButton
+        primary={true}
+        label="Sign In"
+        style={styles.btnStyle}
+        onClick={this.onSigninClick.bind(this)}
+      />
+    );
+  }
+
+  onRegisterClick() {
+    const { email, password } = this.props;
+    this.props.signupUser({ email, password });
+  }
+
+  onSigninClick() {
+    const { email, password } = this.props;
+    this.props.signinUser({ email, password }, () => {
+      this.props.history.push('');
+    });
+  }
+
   render() {
+
     const show = `${this.state.show ? 'block' : 'none'}`;
     const sign = `${this.state.show ? 'Register' : 'Sign In'}`;
     return(
@@ -31,7 +68,7 @@ class Auth extends Component {
           hintText="First Name"
           style={{ display: show }}
           floatingLabelText="Please Enter First Name"
-          onChange={(event, value) => this.props.firstNameChange(value)}
+          onChange={(event, value) => this.props.inputChange({ prop: 'firstName', value })}
           value={this.props.firstName}
         />
         <br />
@@ -39,14 +76,14 @@ class Auth extends Component {
           hintText="Last Name"
           style={{display: show}}
           floatingLabelText="Please Enter Your Last Name"
-          onChange={(event, value) => this.props.lastNameChange(value)}
+          onChange={(event, value) => this.props.inputChange({ prop: 'lastName', value })}
           value={this.props.lastName}
         />
         <br />
         <TextField
           hintText="Email"
           floatingLabelText="Please Enter Your Email"
-          onChange={(event, value) => this.props.emailChange(value)}
+          onChange={(event, value) => this.props.inputChange({ prop: 'email', value })}
           value={this.props.email}
         />
         <br />
@@ -54,15 +91,11 @@ class Auth extends Component {
           hintText="Password"
           type="password"
           floatingLabelText="Please Enter Your Password"
-          onChange={(event, value) => this.props.passwordChange(value)}
+          onChange={(event, value) => this.props.inputChange({ prop: 'password', value })}
           value={this.props.password}
         />
 
-        <RaisedButton
-          primary={true}
-          label={sign}
-          style={styles.btnStyle}
-        />
+        {this.state.show ? this.renderRegisterBtn() : this.renderSigninBtn()}
         <br />
 
         {this.state.show ? this.renderSignin() : this.renderCreate()}
@@ -70,9 +103,9 @@ class Auth extends Component {
     )
   }
 }
-function mapStateToProps({ auth }) {  
-  const { firstName, lastName, email, password } = auth;
-  return { firstName, lastName, email, password };
+function mapStateToProps({ auth }) {
+  const { firstName, lastName, email, password, user } = auth;
+  return { firstName, lastName, email, password, user };
 }
 const styles = {
   btnStyle: {

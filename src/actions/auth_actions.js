@@ -1,34 +1,43 @@
+import firebase from 'firebase';
 import {
-  FIRST_NAME_CHANGE,
-  LAST_NAME_CHANGE,
-  EMAIL_CHANGE,
-  PASSWORD_CHANGE
+  USER_CREATE_SUCCESSFUL,
+  USER_SIGNIN_SUCCESSFUL,
+  GET_CURRENT_USER_ID,
+  INPUT_CHANGE
 } from './types'
 
-export const firstNameChange = (value) => {
+export const inputChange = ({ prop, value }) => {
   return {
-    type: FIRST_NAME_CHANGE,
-    payload: value
+    type: INPUT_CHANGE,
+    payload: { prop, value }
   };
 };
 
-export const lastNameChange = (value) => {
-  return {
-    type: LAST_NAME_CHANGE,
-    payload: value
-  };
+export const signupUser = ({ email, password }) => async dispatch => {
+  try {
+    const user = await firebase.auth().createUserWithEmailAndPassword(email, password);
+    localStorage.setItem('uid', user.uid)
+    dispatch({ type: USER_CREATE_SUCCESSFUL, payload: user });
+  } catch (err) {
+    alert(err);
+  }
 };
 
-export const emailChange = (value) => {
-  return {
-    type: EMAIL_CHANGE,
-    payload: value
-  };
+export const signinUser = ({email, password}, callback) => async dispatch => {
+  try {
+    const user = await firebase.auth().signInWithEmailAndPassword(email, password);
+    localStorage.setItem('uid', user.uid)
+    dispatch({ type: USER_SIGNIN_SUCCESSFUL, payload: user });
+    callback()
+  } catch(err) {
+    alert(err);
+  }
+
 };
 
-export const passwordChange = (value) => {
+export const getCurrentUserID = uid => {
   return {
-    type: PASSWORD_CHANGE,
-    payload: value
+    type: GET_CURRENT_USER_ID,
+    payload: uid
   };
 };

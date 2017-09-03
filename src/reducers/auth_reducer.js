@@ -1,31 +1,28 @@
 import {
-  FIRST_NAME_CHANGE,
-  LAST_NAME_CHANGE,
-  EMAIL_CHANGE,
-  PASSWORD_CHANGE
+  USER_CREATE_SUCCESSFUL,
+  USER_SIGNIN_SUCCESSFUL,
+  GET_CURRENT_USER_ID,
+  INPUT_CHANGE
 } from '../actions/types';
 
 const INITIAL_STATE = {
   firstName: '',
   lastName: '',
   email: '',
-  password: ''
+  password: '',
+  user: ''
 };
 
 export default (state = INITIAL_STATE, action) => {
   switch(action.type) {
-    case FIRST_NAME_CHANGE:
-      const firstName = action.payload;
-      return { ...state, firstName };
-    case LAST_NAME_CHANGE:
-      const lastName = action.payload;
-      return { ...state, lastName };
-    case EMAIL_CHANGE:
-      const email = action.payload;
-      return { ...state, email };
-    case PASSWORD_CHANGE:
-      const password = action.payload;
-      return { ...state, password };
+    case INPUT_CHANGE:
+      return { ...state, [action.payload.prop]: action.payload.value };
+    case USER_CREATE_SUCCESSFUL:
+      return { ...state, user: action.payload.uid };
+    case USER_SIGNIN_SUCCESSFUL:
+      return { ...state, user: action.payload.uid };
+    case GET_CURRENT_USER_ID:
+      return { ...state, user: action.payload };
     default:
       return state;
   }
