@@ -1,13 +1,12 @@
 import firebase from 'firebase';
 import {
-  USER_CREATE_SUCCESSFUL,
-  USER_SIGNIN_SUCCESSFUL,
-  GET_CURRENT_USER_ID,
+  GOT_CURRENT_USER,
   INPUT_CHANGE,
   LOGIN_FAIL,
   SIGNUP_FAIL,
   LOAD,
-  SIGNOUT
+  SIGNOUT,
+  CLEAR
 } from './types'
 
 export const inputChange = ({ prop, value }) => {
@@ -17,12 +16,14 @@ export const inputChange = ({ prop, value }) => {
   };
 };
 
-export const signupUser = ({ email, password }, callback) => async dispatch => {
+export const signupUser = ({ email, password, firstName, lastName }, callback) => async dispatch => {
   dispatch({ type: LOAD })
   try {
     const user = await firebase.auth().createUserWithEmailAndPassword(email, password);
-    localStorage.setItem('uid', user.uid)
-    dispatch({ type: USER_CREATE_SUCCESSFUL, payload: user });
+    await firebase.database().ref(`users/${user.uid}/info`)
+      .push({ firstName, lastName, userId: user.uid });
+    localStorage.setItem('uid', user.uid);
+    getCurrentUser(dispatch, user.uid);
     callback();
   } catch (err) {
     dispatch({ type: SIGNUP_FAIL });
@@ -33,20 +34,25 @@ export const signinUser = ({email, password}, callback) => async dispatch => {
   dispatch({ type: LOAD });
   try {
     const user = await firebase.auth().signInWithEmailAndPassword(email, password);
-    localStorage.setItem('uid', user.uid)
-    dispatch({ type: USER_SIGNIN_SUCCESSFUL, payload: user });
-    callback();
+    localStorage.setItem('uid', user.uid);
+    getCurrentUser(dispatch, user.uid);
+    callback()
   } catch(err) {
     dispatch({ type: LOGIN_FAIL});
   }
 
 };
 
-export const getCurrentUserID = uid => {
-  return {
-    type: GET_CURRENT_USER_ID,
-    payload: uid
-  };
+export const getCurrentUser = (dispatch, uid) => {
+  firebase.database().ref(`/users/${uid}/info`)
+    .on('value', snapshot => {
+      const infoId = Object.keys(snapshot.val())[0];
+      const { firstName, lastName, userId } = snapshot.val()[infoId];
+      const user = { firstName, lastName, userId};
+      // localStorage.setItem('user', JSON.stringify(user));
+      dispatch({ type: GOT_CURRENT_USER, payload: user });
+      dispatch({ type: CLEAR });
+    });
 };
 
 export const signOut = () => {

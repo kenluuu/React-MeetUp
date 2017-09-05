@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import firebase from 'firebase';
+
 import * as actions from '../actions';
 import { TextField, RaisedButton, CircularProgress } from 'material-ui';
 import '../styles/signin.css';
@@ -46,16 +46,16 @@ class Auth extends Component {
   }
 
   onRegisterClick() {
-    const { email, password } = this.props;
-    this.props.signupUser({ email, password }, () => {
-      this.props.history.push('');
+    const { email, password, firstName, lastName } = this.props;
+    this.props.signupUser({ firstName, lastName, email, password }, () => {
+      this.props.history.push('/');
     });
   }
 
   onSigninClick() {
     const { email, password } = this.props;
     this.props.signinUser({ email, password }, () => {
-      this.props.history.push('');
+      this.props.history.push('/');
     });
   }
 
@@ -70,7 +70,7 @@ class Auth extends Component {
   render() {
 
     const show = `${this.state.show ? 'block' : 'none'}`;
-    const sign = `${this.state.show ? 'Register' : 'Sign In'}`;
+
     return(
       <div id="content">
 
