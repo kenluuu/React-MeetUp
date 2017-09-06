@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { CircularProgress } from 'material-ui';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 import firebase from 'firebase';
@@ -10,21 +9,21 @@ import config from '../config';
 import Home from './Home';
 import Auth from './Auth';
 import Navbar from './Navbar';
+import CreateMeetup from './CreateMeetup';
 import '../styles/app.css';
 
 class App extends Component {
   componentWillMount() {
     firebase.initializeApp(config);
-
   }
-  renderSpinner() {
-    console.log('fdsf');
-    return (
-      <div></div>
-    );
+  componentDidMount() {
+    const uid = localStorage.getItem('uid')
+    if (!this.props.user.userId && uid) {
+      this.props.fetchCurrentUser(uid);
+    }
   }
 
-  renderApp() {
+  render() {
     return (
       <div>
         <BrowserRouter>
@@ -33,21 +32,17 @@ class App extends Component {
               <Navbar />
               <Route path="/auth" component={Auth} />
               <Route exact path="/" component={Home} />
+              <Route path="/create" component={CreateMeetup} />
             </div>
           </MuiThemeProvider>
         </BrowserRouter>
       </div>
     );
   }
-  render() {
-    if(localStorage.getItem('uid')) {
-      return this.renderSpinner();
-    }
-    {this.renderApp()}
-  }
 }
+
 function mapStateToProps({ user }) {
-  console.log(user);
   return { user };
 }
+
 export default connect(mapStateToProps, actions)(App);

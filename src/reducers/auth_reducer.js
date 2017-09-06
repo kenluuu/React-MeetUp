@@ -19,13 +19,13 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
   switch(action.type) {
     case INPUT_CHANGE:
-      return { ...state, [action.payload.prop]: action.payload.value };
+      return { ...state, [action.payload.prop]: action.payload.value, error: '' };
     case LOGIN_FAIL:
       return { ...state, error: 'Authentication Failed', loading: false };
     case SIGNUP_FAIL:
       return { ...state, error: 'Failed To Create User', loading: false };
     case LOAD:
-      return { ...state, loading: true };
+      return { ...state, loading: true, error: '' };
     case CLEAR:
       return { ...INITIAL_STATE };
     default:

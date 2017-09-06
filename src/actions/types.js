@@ -6,3 +6,7 @@ export const SIGNUP_FAIL = 'signup_fail';
 export const LOGIN_FAIL = 'login_fail';
 export const LOAD = 'load';
 export const SIGNOUT = 'signout';
+
+//Meetup types
+export const MEETUP_INPUT_CHANGE = 'meetup_change';
+export const CREATE_MEETUP = 'create_meetup'

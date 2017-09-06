@@ -1,0 +1,21 @@
+#input {
+  display: none;
+}
+
+#img {
+  width: 250px;
+  height: 250px;
+}
+
+#meetup-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 100px;
+  position: relative;
+  top: 100px;
+}
+
+.when {
+  color: #616161;
+}

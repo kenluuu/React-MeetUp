@@ -5,7 +5,7 @@ import { CircularProgress } from 'material-ui';
 class Home extends Component {
   render() {
     return (
-      <div>
+      <div style={{ position: 'relative', top: '100px' }}>
         Current user: {this.props.user.firstName} {this.props.user.lastName}
       </div>
     )
@@ -13,7 +13,6 @@ class Home extends Component {
 }
 
 function mapStateToProps({ user }) {
-  console.log(user);
   return { user };
 }
 export default connect(mapStateToProps)(Home);

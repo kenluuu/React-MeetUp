@@ -119,8 +119,8 @@ class Auth extends Component {
   }
 }
 function mapStateToProps({ auth }) {
-  const { firstName, lastName, email, password, user, error, loading } = auth;
-  return { firstName, lastName, email, password, user, error, loading };
+  const { firstName, lastName, email, password, error, loading } = auth;
+  return { firstName, lastName, email, password, error, loading };
 }
 const styles = {
   btnStyle: {
