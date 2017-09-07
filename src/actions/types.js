@@ -9,4 +9,5 @@ export const SIGNOUT = 'signout';
 
 //Meetup types
 export const MEETUP_INPUT_CHANGE = 'meetup_change';
-export const CREATE_MEETUP = 'create_meetup'
+export const CREATE_MEETUP_SUCCESSFUL = 'create_meetup_successful';
+export const CREATE_MEETUP_FAIL = 'create_meetup_fail';

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TextField, RaisedButton, DatePicker, TimePicker } from 'material-ui';
+import { TextField, RaisedButton, DatePicker, TimePicker, CircularProgress } from 'material-ui';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 import '../styles/create-meetups.css';
@@ -33,7 +33,19 @@ class CreateMeetup extends Component {
     );
   }
   onCreateMeetup() {
-    this.props.createMeetup(this.props.meetupInfo, this.props.user.userId);
+    const { name, location, img, date, time, description } = this.props.meetupInfo;
+    this.props.createMeetup(
+      { name, location, img, date, time, description },
+      this.props.user.userId,
+      () => this.props.history.push('/')
+    );
+  }
+  renderSpinner() {
+    if (this.props.meetupInfo.loading) {
+      return(
+        <CircularProgress />
+      );
+    }
   }
   render() {
     return (
@@ -75,10 +87,12 @@ class CreateMeetup extends Component {
          autoOk={true}
          onChange={(event, value) => this.props.meetupInputChange({ prop: 'time', value })}
        />
+       <span id="error" style={{ marginTop: '15px' }}>{this.props.meetupInfo.error}</span>
+       {this.renderSpinner()}
        <RaisedButton
          primary
          label="Create Event"
-         style={{ marginTop: '50px' }}
+         style={{ marginTop: '30px' }}
          onClick={this.onCreateMeetup.bind(this)}
        />
       </div>
@@ -87,13 +101,8 @@ class CreateMeetup extends Component {
 }
 
 function mapStateToProps({ meetupInfo, user }) {
-
   return { meetupInfo, user };
 }
 
-const styles = {
-  textField: {
-    width: '50%'
-  }
-}
+
 export default connect(mapStateToProps, actions)(CreateMeetup);

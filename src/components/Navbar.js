@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { AppBar, FlatButton } from 'material-ui';
 import { connect } from 'react-redux';
 import * as actions from '../actions'
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import '../styles/navbar.css'
 
