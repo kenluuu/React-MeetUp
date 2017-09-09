@@ -1,18 +1,42 @@
 import React, { Component } from 'react';
+
+import _ from 'lodash';
 import { connect } from 'react-redux';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { CircularProgress } from 'material-ui';
+import * as actions from '../actions';
+import MeetupCard from './MeetupCard';
+
+
 class Home extends Component {
+  componentDidMount() {
+    this.props.fetchMeetups()
+  }
+  onClick() {
+    console.log('card clicked');
+  }
+  renderMeetups() {
+    return this.props.meetups.map(meetup =>
+      <MeetupCard
+        meetup={meetup}
+        key={meetup.uid}
+        history={this.props.history}
+      />
+    );
+  }
+
   render() {
     return (
-      <div style={{ position: 'relative', top: '100px' }}>
-        Current user: {this.props.user.firstName} {this.props.user.lastName}
+      <div id="home-content">
+        {this.renderMeetups()}
       </div>
     )
   }
 }
 
-function mapStateToProps({ user }) {
-  return { user };
+function mapStateToProps({ meetups }) {
+  meetups = _.map(meetups, (meetup, uid) => {
+    return { ...meetup, uid };
+  });
+
+  return { meetups };
 }
-export default connect(mapStateToProps)(Home);
+export default connect(mapStateToProps, actions)(Home);

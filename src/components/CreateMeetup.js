@@ -54,6 +54,7 @@ class CreateMeetup extends Component {
           hintText="Event Name"
           floatingLabelText="Enter Name Of The Event"
           onChange={(event, value) => this.props.meetupInputChange({ prop: 'name', value })}
+          disabled={this.props.meetupInfo.loading}
         /><br />
         <TextField
           hintText="Description"
@@ -61,17 +62,19 @@ class CreateMeetup extends Component {
           multiLine={true}
           rows={2}
           onChange={(event, value) => this.props.meetupInputChange({ prop: 'description', value })}
+          disabled={this.props.meetupInfo.loading}
         /><br />
         <TextField
           hintText="Location"
           floatingLabelText="Enter The Location Of The Event"
           onChange={(event, value) => this.props.meetupInputChange({ prop: 'location', value })}
-
+          disabled={this.props.meetupInfo.loading}
         /><br />
         <RaisedButton
           primary
           label="upload image"
           onClick={this.onClick.bind(this)}
+          disabled={this.props.meetupInfo.loading}
         />
         <input type="file" id="input" onChange={this.onUpload.bind(this)}/><br />
         {this.renderImg()}
@@ -80,12 +83,14 @@ class CreateMeetup extends Component {
           hintText="Date"
           formatDate={this.formatDate}
           onChange={(event, value) => this.props.meetupInputChange({ prop: 'date', value })}
+          disabled={this.props.meetupInfo.loading}
         />
         <h1 className="when">Pick A Time</h1>
         <TimePicker
          hintText="Time"
          autoOk={true}
          onChange={(event, value) => this.props.meetupInputChange({ prop: 'time', value })}
+         disabled={this.props.meetupInfo.loading}
        />
        <span id="error" style={{ marginTop: '15px' }}>{this.props.meetupInfo.error}</span>
        {this.renderSpinner()}
@@ -94,6 +99,7 @@ class CreateMeetup extends Component {
          label="Create Event"
          style={{ marginTop: '30px' }}
          onClick={this.onCreateMeetup.bind(this)}
+         disabled={this.props.meetupInfo.loading}
        />
       </div>
     );

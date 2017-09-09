@@ -16,7 +16,7 @@ class Navbar extends Component {
         return (
           <div>
             <Link to="/create">
-              <FlatButton className="btn" label="Create Event" style={{ color: 'white'}}/>
+              <FlatButton className="btn" label="Create Meetup" style={{ color: 'white'}}/>
             </Link>
             <Link to="/auth">
               <FlatButton onClick={this.onSignOut.bind(this)} className="btn" label="Sign Out" style={{ color: 'white'}}/>

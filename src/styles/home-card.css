@@ -1,0 +1,23 @@
+
+
+#home-content {
+  position: relative;
+  top: 120px;
+
+}
+
+#home-card {
+  margin: 0 auto;
+  margin-bottom: 50px;
+  cursor: pointer;
+  width: 40%;
+}
+
+
+
+/*@media only screen and (max-width: 500px) {
+  #home-card {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}*/

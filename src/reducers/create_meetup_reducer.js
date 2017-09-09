@@ -1,6 +1,6 @@
 import {
   MEETUP_INPUT_CHANGE,
-  CREATE_MEETUP_SUCCESSFUL,
+  CLEAR,
   CREATE_MEETUP_FAIL,
   LOAD
 } from '../actions/types';
@@ -19,7 +19,7 @@ export default (state = INITIAL_STATE, action) => {
   switch(action.type) {
     case MEETUP_INPUT_CHANGE:
       return { ...state, [action.payload.prop]: action.payload.value, error: '' };
-    case CREATE_MEETUP_SUCCESSFUL:
+    case CLEAR:
       return INITIAL_STATE;
     case CREATE_MEETUP_FAIL:
       return { ...state, error: 'All Fields Must Be Filled Out' };

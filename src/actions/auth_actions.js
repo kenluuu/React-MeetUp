@@ -48,7 +48,6 @@ const getUser = (dispatch, uid) => {
 };
 
 export const fetchCurrentUser = uid => dispatch => {
-  console.log('fetching user');
   getUserFromFirebase(dispatch, uid);
 }
 

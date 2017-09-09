@@ -13,6 +13,7 @@ class Auth extends Component {
   onClick() {
     this.setState({ show: !this.state.show})
   }
+
   renderCreate() {
     return (
       <p id="create" onClick={this.onClick.bind(this)}>Create New Account</p>
@@ -30,6 +31,7 @@ class Auth extends Component {
         label="Create Account"
         style={styles.btnStyle}
         onClick={this.onRegisterClick.bind(this)}
+        disabled={this.props.loading}
       />
     );
   }
@@ -41,6 +43,7 @@ class Auth extends Component {
         label="Sign In"
         style={styles.btnStyle}
         onClick={this.onSigninClick.bind(this)}
+        disabled={this.props.loading}
       />
     );
   }
@@ -68,12 +71,9 @@ class Auth extends Component {
   }
 
   render() {
-
     const show = `${this.state.show ? 'block' : 'none'}`;
-
     return(
       <div id="content">
-
         <TextField
           hintText="First Name"
           style={{ display: show }}

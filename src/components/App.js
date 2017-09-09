@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
@@ -10,6 +10,7 @@ import Home from './Home';
 import Auth from './Auth';
 import Navbar from './Navbar';
 import CreateMeetup from './CreateMeetup';
+import Meetup from './Meetup';
 import '../styles/app.css';
 
 class App extends Component {
@@ -25,18 +26,20 @@ class App extends Component {
 
   render() {
     return (
-      <div>
-        <BrowserRouter>
-          <MuiThemeProvider>
-            <div>
-              <Navbar />
+      <BrowserRouter>
+        <MuiThemeProvider>
+          <div>
+            <Navbar />
+            <Switch>
+              <Route path="/meetup/:id" component={Meetup}/>
               <Route path="/auth" component={Auth} />
               <Route exact path="/" component={Home} />
               <Route path="/create" component={CreateMeetup} />
-            </div>
-          </MuiThemeProvider>
-        </BrowserRouter>
-      </div>
+              <Route path="/*" component={Home}/>
+            </Switch>
+          </div>
+        </MuiThemeProvider>
+      </BrowserRouter>
     );
   }
 }
