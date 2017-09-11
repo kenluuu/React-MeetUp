@@ -1,12 +1,16 @@
 #meetup-page-content {
   position: relative;
   top: 120px;
+  margin: 0 auto;
   margin-bottom: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 #meetup-page-card {
   width: 50%;
-  margin: 0 auto;
+
 }
 
 #time {
@@ -21,4 +25,9 @@
 
 #organizer {
   display: block;
+}
+
+#icon-menu{
+  position: absolute;
+  right: 25%;
 }

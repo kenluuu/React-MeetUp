@@ -13,3 +13,5 @@ export const CREATE_MEETUP_FAIL = 'create_meetup_fail';
 export const FETCH_MEETUPS = 'fetch_meetups';
 export const FETCH_MEETUP = 'fetch_meetup';
 export const FETCH_CREATOR = 'fetch_creator';
+export const DIALOG_CLEAR = 'dialog_clear';
+export const EDIT_MEETUP_SUCCESS = 'edit_meetup_success';

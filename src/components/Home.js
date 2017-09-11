@@ -10,9 +10,7 @@ class Home extends Component {
   componentDidMount() {
     this.props.fetchMeetups()
   }
-  onClick() {
-    console.log('card clicked');
-  }
+
   renderMeetups() {
     return this.props.meetups.map(meetup =>
       <MeetupCard

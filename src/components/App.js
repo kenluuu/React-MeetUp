@@ -33,8 +33,8 @@ class App extends Component {
             <Switch>
               <Route path="/meetup/:id" component={Meetup}/>
               <Route path="/auth" component={Auth} />
-              <Route exact path="/" component={Home} />
               <Route path="/create" component={CreateMeetup} />
+              <Route exact path="/" component={Home} />
               <Route path="/*" component={Home}/>
             </Switch>
           </div>
