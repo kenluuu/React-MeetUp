@@ -24,7 +24,7 @@ export default (state = INITIAL_STATE, action) => {
     case FETCH_MEETUP:
       return {  ...state, ...action.payload, loading: false };
     case EDIT_MEETUP_SUCCESS:
-      return { ...state, loading: false };
+      return { ...state, loading: false, img: null };
     case FETCH_CREATOR:
       return { ...state, ...action.payload };
     case LOAD:

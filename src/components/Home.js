@@ -8,9 +8,9 @@ import MeetupCard from './MeetupCard';
 
 class Home extends Component {
   componentDidMount() {
+    console.log('fetch mettups');
     this.props.fetchMeetups()
   }
-
   renderMeetups() {
     return this.props.meetups.map(meetup =>
       <MeetupCard
@@ -20,7 +20,6 @@ class Home extends Component {
       />
     );
   }
-
   render() {
     return (
       <div id="home-content">
@@ -34,7 +33,6 @@ function mapStateToProps({ meetups }) {
   meetups = _.map(meetups, (meetup, uid) => {
     return { ...meetup, uid };
   });
-
   return { meetups };
 }
 export default connect(mapStateToProps, actions)(Home);

@@ -15,3 +15,4 @@ export const FETCH_MEETUP = 'fetch_meetup';
 export const FETCH_CREATOR = 'fetch_creator';
 export const DIALOG_CLEAR = 'dialog_clear';
 export const EDIT_MEETUP_SUCCESS = 'edit_meetup_success';
+export const FETCH_ATTENDING_USERS = 'fetch_attending_users';

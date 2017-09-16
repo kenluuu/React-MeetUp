@@ -13,7 +13,6 @@ class MeetupForm extends Component {
   onUpload(event) {
     const file = event.target.files;
     const fileReader = new FileReader();
-
     fileReader.readAsDataURL(file[0]);
     fileReader.onload = () => {
       this.props.meetupInputChange({ prop: 'img', value: file[0] })
@@ -100,10 +99,5 @@ class MeetupForm extends Component {
     )
   }
 }
-
-// function mapStateToProps({ meetupInfo, user }) {
-//   console.log(meetupInfo);
-//   return { meetupInfo, user };
-// }
 
 export default connect(null, actions)(MeetupForm);

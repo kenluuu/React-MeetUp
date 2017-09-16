@@ -1,20 +1,23 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 import { Card, CardHeader, CardTitle, CardText, FontIcon, IconMenu, MenuItem, Dialog, RaisedButton } from 'material-ui';
 import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import MeetupForm from './MeetupForm';
 import * as actions from '../actions';
 import '../styles/meetup-page.css';
+
+
 class Meetup extends Component {
-  state = { open: false };
+  state = { open: false, attending: false, delete: false };
   componentDidMount() {
     const uid = this.props.match.params.id;
     const query = this.props.location.search;
     const creatorID = query.slice(query.lastIndexOf('=') + 1);
     this.props.fetchMeetup(uid);
     this.props.fetchCreator(creatorID);
-
+    this.props.fetchAttendingUsers(uid);
   }
 
   renderIconMeun() {
@@ -23,13 +26,40 @@ class Meetup extends Component {
         <div id="icon-menu">
           <IconMenu
             iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
-            anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
            >
-             <MenuItem value="1" primaryText="Edit Event" onClick={() => this.setState({ open: true })} />
+             <MenuItem  primaryText="Edit Event" onClick={() => this.setState({ open: true })} />
+             <MenuItem primaryText="Delete Event" onClick={() => this.setState({ delete: true })} />
            </IconMenu>
         </div>
       );
     }
+  }
+  renderDelete() {
+    return(
+      <Dialog
+         title="Delete Meetup?"
+         open={this.state.delete}
+         onRequestClose={() => this.setState({ delete: false })}
+         actions={[
+           <RaisedButton
+             label="Cancel"
+             primary={true}
+             onClick={() => this.setState({ delete: false })}
+          />,
+          <RaisedButton
+             label="Delete"
+             secondary
+             onClick={(this.onDeleteMeetup.bind(this))}
+           />
+         ]}
+       >
+      Are you sure you want to delete this event?
+      </Dialog>
+    )
+  }
+  onDeleteMeetup() {
+    const uid = this.props.match.params.id;
+    this.props.deleteMeetup(uid, () => this.props.history.push('/'));
   }
 
   handleClose() {
@@ -45,7 +75,7 @@ class Meetup extends Component {
     this.props.editMeetup({ name, location, img, date, time, description}, uid, this.handleClose.bind(this));
   }
 
-  renderDialog() {
+  renderMeetupForm() {
     return (
       <Dialog
         modal={this.props.selectedMeetup.loading}
@@ -66,6 +96,22 @@ class Meetup extends Component {
     )
   }
 
+  renderAttending() {
+    return (
+      <Dialog
+        open={this.state.attending}
+        onRequestClose={() => this.setState({ attending: false })}
+        autoScrollBodyContent={true}
+      >
+        {this.props.usersAttendingMeetup.map(user => {
+          return (
+            <p key={user.uid}>{user.firstName} {user.lastName}</p>
+          )
+        })}
+      </Dialog>
+    )
+  }
+
   render() {
     if (!this.props.selectedMeetup.name) {
       return (
@@ -75,18 +121,29 @@ class Meetup extends Component {
     }
 
     const { firstName, lastName, location, date, name, time, description, imageURL } = this.props.selectedMeetup;
+
     return(
       <div id="meetup-page-content">
         <Card id="meetup-page-card">
           {this.renderIconMeun()}
-          {this.renderDialog()}
+          {this.renderMeetupForm()}
+          {this.renderAttending()}
+          {this.renderDelete()}
           <CardHeader
             title={[
               <span id="organizer" key="org">Organizer:</span>,
               `${firstName} ${lastName}`
             ]}
           />
-          <img src={imageURL} width='100%' alt=""/>
+          <img src={imageURL} width='100%' alt="" />
+          <RaisedButton
+            label="Register"
+            secondary
+            style={styles.regBtn}
+          />
+          <CardText style={{ paddingTop: '0', paddingBottom: '0' }}>
+            <p id="users-going" onClick={() => this.setState({ attending: true })}> Attending: {this.props.usersAttendingMeetup.length} </p>
+          </CardText>
           <CardTitle
             title={name}
             style={styles.cardTitle}
@@ -130,11 +187,19 @@ const styles = {
   meetupForm: {
     position: 'relative',
     top: '0'
+  },
+  regBtn: {
+    marginLeft: '15px',
+    marginTop: '15px',
+    marginBottom: '5px'
   }
 };
 
-function mapStateToProps({ selectedMeetup, user }) {
+function mapStateToProps({ selectedMeetup, user, usersAttendingMeetup }) {
+  usersAttendingMeetup = _.map(usersAttendingMeetup, (users, uid) => {
+    return { ...users, uid };
+  });
   console.log(selectedMeetup);
-  return { selectedMeetup, user };
+  return { selectedMeetup, user, usersAttendingMeetup };
 }
 export default connect(mapStateToProps, actions)(Meetup);

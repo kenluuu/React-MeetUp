@@ -31,3 +31,13 @@
   position: absolute;
   right: 25%;
 }
+
+#users-going {
+  margin-top: 5px;
+  margin-bottom: 0px;
+}
+
+#users-going:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}

@@ -10,11 +10,11 @@ class CreateMeetup extends Component {
     const { name, location, img, date, time, description } = this.props.meetupInfo;
     this.props.createMeetup(
       { name, location, img, date, time, description },
-      this.props.user.userId,
+      this.props.user,
       () => this.props.history.push('/')
     );
   }
-  
+
   componentWillUnmount() {
     this.props.clearForm();
   }
@@ -37,6 +37,7 @@ class CreateMeetup extends Component {
 }
 
 function mapStateToProps({ meetupInfo, user }) {
+  console.log(meetupInfo);
   return { meetupInfo, user };
 }
 
