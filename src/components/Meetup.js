@@ -112,6 +112,18 @@ class Meetup extends Component {
     )
   }
 
+  renderRegBtn() {
+    const uid = this.props.match.params.id;
+    console.log(this.props.user);
+    const { creatorID } = this.props.selectedMeetup;
+    const { userId, firstName, lastName } = this.props.user;
+    if (creatorID === userId) {
+        return <div></div>;
+    } else {
+      return <RaisedButton label="Register" secondary style={styles.regBtn} onClick={() => this.props.registerForMeetup(uid, { firstName, lastName, userId })} />
+    }
+  }
+
   render() {
     if (!this.props.selectedMeetup.name) {
       return (
@@ -136,11 +148,7 @@ class Meetup extends Component {
             ]}
           />
           <img src={imageURL} width='100%' alt="" />
-          <RaisedButton
-            label="Register"
-            secondary
-            style={styles.regBtn}
-          />
+          {this.renderRegBtn()}
           <CardText style={{ paddingTop: '0', paddingBottom: '0' }}>
             <p id="users-going" onClick={() => this.setState({ attending: true })}> Attending: {this.props.usersAttendingMeetup.length} </p>
           </CardText>
@@ -196,10 +204,11 @@ const styles = {
 };
 
 function mapStateToProps({ selectedMeetup, user, usersAttendingMeetup }) {
+  console.log(usersAttendingMeetup);
   usersAttendingMeetup = _.map(usersAttendingMeetup, (users, uid) => {
     return { ...users, uid };
   });
-  console.log(selectedMeetup);
+
   return { selectedMeetup, user, usersAttendingMeetup };
 }
 export default connect(mapStateToProps, actions)(Meetup);

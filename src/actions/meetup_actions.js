@@ -109,6 +109,11 @@ export const deleteMeetup = (uid, callback) => async dispatch => {
   await firebase.storage().ref(`/meetups/${uid}`).delete();
   await firebase.database().ref(`/meetups/${uid}`).remove();
   await firebase.database().ref(`/usersGoingToMeetups/${uid}`).remove();
-
   callback();
+}
+
+export const registerForMeetup = (uid, user) => async dispatch => {
+  const { userId, firstName, lastName } = user;
+  await firebase.database().ref(`/usersGoingToMeetups/${uid}/${userId}`)
+    .set({ firstName, lastName });
 }
