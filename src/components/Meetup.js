@@ -103,7 +103,7 @@ class Meetup extends Component {
         onRequestClose={() => this.setState({ attending: false })}
         autoScrollBodyContent={true}
       >
-        {this.props.usersAttendingMeetup.map(user => {
+        {this.props.usersAttendingMeetupArray.map(user => {
           return (
             <p key={user.uid}>{user.firstName} {user.lastName}</p>
           )
@@ -114,11 +114,12 @@ class Meetup extends Component {
 
   renderRegBtn() {
     const uid = this.props.match.params.id;
-    console.log(this.props.user);
     const { creatorID } = this.props.selectedMeetup;
     const { userId, firstName, lastName } = this.props.user;
     if (creatorID === userId) {
         return <div></div>;
+    } else if (this.props.usersAttendingMeetup[userId]) {
+      return <RaisedButton label="Unregister" secondary style={styles.regBtn} onClick={() => this.props.unregisterForMeetup(uid, userId)}/>
     } else {
       return <RaisedButton label="Register" secondary style={styles.regBtn} onClick={() => this.props.registerForMeetup(uid, { firstName, lastName, userId })} />
     }
@@ -150,7 +151,7 @@ class Meetup extends Component {
           <img src={imageURL} width='100%' alt="" />
           {this.renderRegBtn()}
           <CardText style={{ paddingTop: '0', paddingBottom: '0' }}>
-            <p id="users-going" onClick={() => this.setState({ attending: true })}> Attending: {this.props.usersAttendingMeetup.length} </p>
+            <p id="users-going" onClick={() => this.setState({ attending: true })}> Attending: {this.props.usersAttendingMeetupArray.length} </p>
           </CardText>
           <CardTitle
             title={name}
@@ -205,10 +206,9 @@ const styles = {
 
 function mapStateToProps({ selectedMeetup, user, usersAttendingMeetup }) {
   console.log(usersAttendingMeetup);
-  usersAttendingMeetup = _.map(usersAttendingMeetup, (users, uid) => {
+  const usersAttendingMeetupArray = _.map(usersAttendingMeetup, (users, uid) => {
     return { ...users, uid };
   });
-
-  return { selectedMeetup, user, usersAttendingMeetup };
+  return { selectedMeetup, user, usersAttendingMeetup, usersAttendingMeetupArray };
 }
 export default connect(mapStateToProps, actions)(Meetup);
