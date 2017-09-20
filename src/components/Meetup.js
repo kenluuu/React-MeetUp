@@ -205,7 +205,7 @@ const styles = {
 };
 
 function mapStateToProps({ selectedMeetup, user, usersAttendingMeetup }) {
-  console.log(usersAttendingMeetup);
+  console.log(selectedMeetup);
   const usersAttendingMeetupArray = _.map(usersAttendingMeetup, (users, uid) => {
     return { ...users, uid };
   });

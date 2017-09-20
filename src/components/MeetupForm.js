@@ -52,7 +52,7 @@ class MeetupForm extends Component {
           floatingLabelText="Enter Name Of The Event"
           onChange={(event, value) => this.props.meetupInputChange({ prop: 'name', value })}
           disabled={loading}
-          value={name}
+
         /><br />
         <TextField
           hintText="Description"
@@ -61,14 +61,14 @@ class MeetupForm extends Component {
           rows={2}
           onChange={(event, value) => this.props.meetupInputChange({ prop: 'description', value })}
           disabled={loading}
-          value={description}
+
         /><br />
         <TextField
           hintText="Location"
           floatingLabelText="Enter The Location Of The Event"
           onChange={(event, value) => this.props.meetupInputChange({ prop: 'location', value })}
           disabled={loading}
-          value={location}
+          
         /><br />
         <RaisedButton
           primary

@@ -37,7 +37,7 @@ class CreateMeetup extends Component {
 }
 
 function mapStateToProps({ meetupInfo, user }) {
-  console.log(meetupInfo);
+  
   return { meetupInfo, user };
 }
 
