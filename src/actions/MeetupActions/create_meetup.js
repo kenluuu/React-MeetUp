@@ -1,6 +1,6 @@
 import firebase from 'firebase';
 import { LOAD, CREATE_MEETUP_FAIL } from '../types';
-import { validate, addPhoto, clearForm } from './utils';
+import { validate, addPhoto, clearForm } from '../utils';
 
 
 

@@ -1,6 +1,6 @@
 import firebase from 'firebase';
 import { LOAD } from '../types';
-import { validate, addPhoto, clearForm } from './utils';
+import { validate, addPhoto, clearForm } from '../utils';
 
 
 export const editMeetup = (meetupInfo, uid, callback) => async dispatch => {

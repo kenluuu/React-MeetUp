@@ -1,0 +1,32 @@
+#profile-page-content {
+  position: relative;
+  top: 120px;
+}
+
+
+
+#profile-card {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+ #tabs, #profile-edit-form {
+  margin: 0 auto;
+  max-width: 400px;
+}
+
+#profile-edit-form-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+
+
+#tabs {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}

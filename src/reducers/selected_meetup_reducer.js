@@ -10,7 +10,6 @@ const INITIAL_STATE = {
   name: '',
   description: '',
   location: '',
-  img: null,
   time: '',
   date: '',
   error: '',
@@ -24,7 +23,7 @@ export default (state = INITIAL_STATE, action) => {
     case FETCH_MEETUP:
       return {  ...state, ...action.payload, loading: false };
     case EDIT_MEETUP_SUCCESS:
-      return { ...state, loading: false, img: null };
+      return { ...state, loading: false };
     case FETCH_CREATOR:
       return { ...state, ...action.payload };
     case LOAD:

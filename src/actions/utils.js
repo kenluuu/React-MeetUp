@@ -1,5 +1,5 @@
 import firebase from 'firebase';
-import { CLEAR, EDIT_MEETUP_SUCCESS } from '../types';
+import { CLEAR, EDIT_MEETUP_SUCCESS } from './types';
 
 export const validate = meetupInfo => {
   for (let key in meetupInfo) {

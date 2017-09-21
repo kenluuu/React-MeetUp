@@ -11,6 +11,7 @@ import Auth from './Auth';
 import Navbar from './Navbar';
 import CreateMeetup from './CreateMeetup';
 import Meetup from './Meetup';
+import Profile from './Profile';
 import '../styles/app.css';
 
 class App extends Component {
@@ -31,6 +32,7 @@ class App extends Component {
           <div>
             <Navbar />
             <Switch>
+              <Route path="/profile/:id" component={Profile}/>
               <Route path="/meetup/:id" component={Meetup}/>
               <Route path="/auth" component={Auth} />
               <Route path="/create" component={CreateMeetup} />

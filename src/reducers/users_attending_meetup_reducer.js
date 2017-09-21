@@ -1,6 +1,4 @@
-import {
-  FETCH_ATTENDING_USERS
-} from '../actions/types';
+import { FETCH_ATTENDING_USERS } from '../actions/types';
 
 const INITIAL_STATE = {};
 

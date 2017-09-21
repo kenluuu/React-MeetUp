@@ -9,7 +9,6 @@ const INITIAL_STATE = {
   name: '',
   description: '',
   location: '',
-  img: null,
   time: '',
   date: '',
   error: '',

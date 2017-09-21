@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { AppBar, FlatButton } from 'material-ui';
+import Person from 'material-ui/svg-icons/social/person'
 import { connect } from 'react-redux';
 import * as actions from '../actions'
 import { Link } from 'react-router-dom';
@@ -12,14 +13,18 @@ class Navbar extends Component {
     this.props.signOut();
   }
   renderAuth() {
-    if (localStorage.getItem('uid')) {
+    const userId = localStorage.getItem('uid');
+    if (userId) {
         return (
           <div>
+            <Link to={`/profile/${userId}`}>
+              <FlatButton icon={<Person />} label="Profile" style={{ color: 'white' }} />
+            </Link>
             <Link to="/create">
-              <FlatButton className="btn" label="Create Meetup" style={{ color: 'white'}}/>
+              <FlatButton label="Create Meetup" style={{ color: 'white'}}/>
             </Link>
             <Link to="/auth">
-              <FlatButton onClick={this.onSignOut.bind(this)} className="btn" label="Sign Out" style={{ color: 'white'}}/>
+              <FlatButton onClick={this.onSignOut.bind(this)} label="Sign Out" style={{ color: 'white'}}/>
             </Link>
           </div>
         );
