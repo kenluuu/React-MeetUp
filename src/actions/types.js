@@ -21,3 +21,6 @@ export const FETCH_ATTENDING_USERS = 'fetch_attending_users';
 export const FETCH_PROFILE_INFO = 'fetch_profile_info';
 export const PROFILE_INPUT_CHANGE = 'profile_input_change';
 export const EDIT_PROFILE_SUCCESS = 'edit_profile_success';
+
+//Notification types
+export const FETCH_NOTIFICATION = 'fetch_notification';

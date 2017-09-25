@@ -1,24 +1,25 @@
 #profile-page-content {
   position: relative;
-  top: 120px;
+  top: 85px;
 }
 
 
 
 #profile-card {
-  max-width: 400px;
+  max-width: 350px;
   margin: 0 auto;
 }
 
  #tabs, #profile-edit-form {
   margin: 0 auto;
-  max-width: 400px;
+  max-width: 350px;
 }
 
 #profile-edit-form-content {
     display: flex;
     flex-direction: column;
     align-items: center;
+
 }
 
 

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import { Card, CardHeader, CardTitle, CardText, FontIcon, IconMenu, MenuItem, Dialog, RaisedButton } from 'material-ui';
 import IconButton from 'material-ui/IconButton';
@@ -7,7 +8,6 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import MeetupForm from './MeetupForm';
 import * as actions from '../actions';
 import '../styles/meetup-page.css';
-
 
 class Meetup extends Component {
   state = { open: false, attending: false, delete: false };
@@ -104,8 +104,15 @@ class Meetup extends Component {
         autoScrollBodyContent={true}
       >
         {this.props.usersAttendingMeetupArray.map(user => {
+
           return (
-            <p key={user.uid}>{user.firstName} {user.lastName}</p>
+            <Link to={`/profile/${user.uid}`} key={user.uid} id="attending-link">
+              <p id="attending-item">
+                <img id="attending-img" src={user.photo} alt="" />
+                <span id="attending-name">{user.firstName} {user.lastName}</span>
+
+              </p>
+            </Link>
           )
         })}
       </Dialog>
@@ -115,13 +122,15 @@ class Meetup extends Component {
   renderRegBtn() {
     const uid = this.props.match.params.id;
     const { creatorID } = this.props.selectedMeetup;
-    const { userId, firstName, lastName } = this.props.user;
+    const { userId, firstName, lastName, photo } = this.props.user;
+
+
     if (creatorID === userId) {
         return <div></div>;
     } else if (this.props.usersAttendingMeetup[userId]) {
-      return <RaisedButton label="Unregister" secondary style={styles.regBtn} onClick={() => this.props.unregisterForMeetup(uid, userId)}/>
+      return <RaisedButton label="Unregister" secondary style={styles.regBtn} onClick={() => this.props.unregisterForMeetup(uid, userId, creatorID)}/>
     } else {
-      return <RaisedButton label="Register" secondary style={styles.regBtn} onClick={() => this.props.registerForMeetup(uid, { firstName, lastName, userId })} />
+      return <RaisedButton label="Register" secondary style={styles.regBtn} onClick={() => this.props.registerForMeetup(uid, creatorID, { firstName, lastName, userId, photo })} />
     }
   }
 
@@ -205,7 +214,7 @@ const styles = {
 };
 
 function mapStateToProps({ selectedMeetup, user, usersAttendingMeetup }) {
-  console.log(selectedMeetup);
+  
   const usersAttendingMeetupArray = _.map(usersAttendingMeetup, (users, uid) => {
     return { ...users, uid };
   });

@@ -44,7 +44,7 @@ class MeetupForm extends Component {
   }
 
   render() {
-    const { name, location, description, loading, error } = this.props.meetupInfo || this.props.selectedMeetup;
+    const { loading, error } = this.props.meetupInfo || this.props.selectedMeetup;
     return (
       <div id="meetup-form">
         <TextField
@@ -68,7 +68,7 @@ class MeetupForm extends Component {
           floatingLabelText="Enter The Location Of The Event"
           onChange={(event, value) => this.props.meetupInputChange({ prop: 'location', value })}
           disabled={loading}
-          
+
         /><br />
         <RaisedButton
           primary

@@ -38,3 +38,28 @@
   cursor: pointer;
   text-decoration: underline;
 }
+
+#attending-img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+}
+
+#attending-item {
+  display: flex;
+  align-items: center;
+}
+
+#attending-item:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+#attending-name {
+  margin-left: 15px;
+  font-size: 18px;
+}
+
+#attending-link {
+  text-decoration: none;
+}

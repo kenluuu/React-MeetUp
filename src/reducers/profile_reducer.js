@@ -10,7 +10,7 @@ const INITIAL_STATE = null;
 export default (state = INITIAL_STATE, action) => {
   switch(action.type) {
     case FETCH_PROFILE_INFO:
-      return { ...action.payload, loading: false };
+      return action.payload;
     case PROFILE_INPUT_CHANGE:
       return { ...state, [action.payload.prop]: action.payload.value };
     case LOAD:

@@ -9,6 +9,8 @@ import {
   CLEAR
 } from './types'
 
+const defaultProfileImg = 'http://valleyosteopathy.com.au/wp-content/uploads/2013/11/facebook-default-no-profile-pic1-e1478228271928.jpg'
+
 export const inputChange = ({ prop, value }) => {
   return {
     type: INPUT_CHANGE,
@@ -21,8 +23,9 @@ export const signupUser = ({ email, password, firstName, lastName }, callback) =
   try {
     const user = await firebase.auth().createUserWithEmailAndPassword(email, password);
     await firebase.database().ref(`/users/${user.uid}`)
-      .set({ firstName, lastName, userId: user.uid });
+      .set({ firstName, lastName, userId: user.uid, photo: defaultProfileImg, notificationLength: 0, location: '', about: '' });
     localStorage.setItem('uid', user.uid);
+    localStorage.setItem('noteLength', 0);
     getUser(dispatch, user.uid);
     callback();
   } catch (err) {
@@ -49,6 +52,7 @@ const getUser = (dispatch, uid) => {
 
 export const fetchCurrentUser = uid => dispatch => {
   getUserFromFirebase(dispatch, uid);
+  console.log('fetchCurrentUser');
 }
 
 export const signOut = () => {
@@ -61,6 +65,7 @@ const getUserFromFirebase = (dispatch, uid) => {
   firebase.database().ref(`/users/${uid}`)
     .on('value', snapshot => {
       const user = snapshot.val();
+      localStorage.setItem('noteLength', user.notificationLength);
       dispatch({ type: GOT_CURRENT_USER, payload: user });
       dispatch({ type: CLEAR });
     })

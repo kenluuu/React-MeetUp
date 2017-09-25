@@ -25,7 +25,8 @@ export default (state = INITIAL_STATE, action) => {
     case EDIT_MEETUP_SUCCESS:
       return { ...state, loading: false };
     case FETCH_CREATOR:
-      return { ...state, ...action.payload };
+      const { firstName, lastName } = action.payload;
+      return { ...state, firstName, lastName };
     case LOAD:
       return { ...state, loading: true };
     default:

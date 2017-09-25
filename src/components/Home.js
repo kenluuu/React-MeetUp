@@ -8,7 +8,6 @@ import MeetupCard from './MeetupCard';
 
 class Home extends Component {
   componentDidMount() {
-    console.log('fetch mettups');
     this.props.fetchMeetups()
   }
   renderMeetups() {

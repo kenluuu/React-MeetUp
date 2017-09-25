@@ -6,7 +6,7 @@ import { validate, addPhoto, clearForm } from '../utils';
 
 export const createMeetup = (meetupInfo, user, callback) => async dispatch => {
   const { name, location, img, date, time, description } = meetupInfo;
-  const { firstName, lastName, userId } = user;
+  const { firstName, lastName, userId, photo } = user;
 
   if(validate(meetupInfo)) {
     dispatch({ type: LOAD })
@@ -14,7 +14,7 @@ export const createMeetup = (meetupInfo, user, callback) => async dispatch => {
       .push({ name, description, location, date, time, creatorID: userId });
     await addPhoto(dispatch, key, img);
     await firebase.database().ref(`/usersGoingToMeetups/${key}/${userId}`)
-      .set({ firstName, lastName });
+      .set({ firstName, lastName, photo });
     callback();
     clearForm();
   } else {

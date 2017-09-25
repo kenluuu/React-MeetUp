@@ -1,11 +1,14 @@
 import firebase from 'firebase';
 
-export const registerForMeetup = (uid, user) => async dispatch => {
-  const { userId, firstName, lastName } = user;
+export const registerForMeetup = (uid, creatorID, user) => async dispatch => {
+  const { userId, firstName, lastName, photo } = user;
+  const note = `${firstName} ${lastName} registered for your meetup.`
   await firebase.database().ref(`/usersGoingToMeetups/${uid}/${userId}`)
-    .set({ firstName, lastName });
+    .set({ firstName, lastName, photo });
+  await firebase.database().ref(`/notifications/${creatorID}`)
+    .push({ note, eventUID: uid, eventCreatorID: creatorID });
 }
 
-export const unregisterForMeetup = (uid, userId) => async dispatch => {
+export const unregisterForMeetup = (uid, userId, creatorID) => async dispatch => {
   await firebase.database().ref(`/usersGoingToMeetups/${uid}/${userId}`).remove();
 }
