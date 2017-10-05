@@ -40,7 +40,6 @@ class Profile extends Component {
   }
   onEditClick() {
     const { firstName, lastName, about, location, img } = this.props.profile;
-    console.log(this.props.profile);
     const userId = this.props.match.params.id;
     this.props.editProfile({ firstName, lastName, about, location, img, userId }, () => this.setState({ slideIndex: 0 }));
   }

@@ -8,6 +8,8 @@ import MeetupCard from './MeetupCard';
 
 class Home extends Component {
   componentDidMount() {
+    const uid = localStorage.getItem('uid');
+    this.props.fetchNotifications(uid);
     this.props.fetchMeetups()
   }
   renderMeetups() {
@@ -32,6 +34,7 @@ function mapStateToProps({ meetups }) {
   meetups = _.map(meetups, (meetup, uid) => {
     return { ...meetup, uid };
   });
+
   return { meetups };
 }
 export default connect(mapStateToProps, actions)(Home);

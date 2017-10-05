@@ -21,10 +21,9 @@ class App extends Component {
 
   }
   componentDidMount() {
-    const uid = localStorage.getItem('uid')
+    const uid = localStorage.getItem('uid');
     if (!this.props.user.userId && uid) {
       this.props.fetchCurrentUser(uid);
-      this.props.fetchNotifications(uid)
     }
   }
 

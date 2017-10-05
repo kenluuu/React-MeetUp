@@ -8,7 +8,6 @@ import {
   SIGNOUT,
   CLEAR
 } from './types'
-
 const defaultProfileImg = 'http://valleyosteopathy.com.au/wp-content/uploads/2013/11/facebook-default-no-profile-pic1-e1478228271928.jpg'
 
 export const inputChange = ({ prop, value }) => {
@@ -52,7 +51,6 @@ const getUser = (dispatch, uid) => {
 
 export const fetchCurrentUser = uid => dispatch => {
   getUserFromFirebase(dispatch, uid);
-  console.log('fetchCurrentUser');
 }
 
 export const signOut = () => {

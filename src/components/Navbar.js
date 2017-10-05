@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppBar, FlatButton, IconButton, Badge, IconMenu, MenuItem } from 'material-ui';
+import { AppBar, FlatButton, Badge, IconMenu, MenuItem } from 'material-ui';
 import Person from 'material-ui/svg-icons/social/person';
 import Notifiactions from 'material-ui/svg-icons/social/notifications'
 import { connect } from 'react-redux';
@@ -15,19 +15,17 @@ class Navbar extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-
     const noteLength = localStorage.getItem('noteLength');
-    if (noteLength > 0 && newProps.notifications.length > 0) {
+    if (noteLength >= 0 && newProps.notifications.length > 0) {
       const numberOfNewNotifications = newProps.notifications.length - localStorage.getItem('noteLength');
       if (numberOfNewNotifications > 0) {
         this.setState({ newNotifications: numberOfNewNotifications })
       }
     }
-
   }
   onSignOut() {
     localStorage.removeItem('uid');
-    localStorage.removeItem('noteLength');
+    this.setState({ newNotifications: 0 });
     this.props.signOut();
   }
 
