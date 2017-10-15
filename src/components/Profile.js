@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
-import { Card, CardTitle, CardText, Tabs, Tab, TextField, RaisedButton, CircularProgress } from 'material-ui';
+import { Card, CardTitle, CardText, Tabs, Tab, TextField, RaisedButton, CircularProgress, Popover } from 'material-ui';
 import SwipeableViews from 'react-swipeable-views';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 import '../styles/profile.css'
 
-
 class Profile extends Component {
   constructor(props) {
     super(props);
-    this.state = { slideIndex: 0, imgURL: '' };
+    this.state = { slideIndex: 0, imgURL: '', open: false };
   }
 
   onClick() {
@@ -114,6 +113,42 @@ class Profile extends Component {
       );
     }
   }
+
+  handleTouchTap = (event) => {
+    // This prevents ghost click.
+    event.preventDefault();
+
+    this.setState({
+      open: true,
+      anchorEl: event.currentTarget,
+    });
+  };
+
+  renderMessageButton() {
+    return (
+      <div id="message-btn-container">
+        <RaisedButton
+          label="Message"
+          primary
+          onClick={this.handleTouchTap}
+        />
+      </div>
+    )
+  }
+
+  renderMessageBox() {
+    console.log('message box');
+    return(
+      <Popover
+        open={this.state.open}
+        onRequestClose={() => this.setState({ open: false })}
+        anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+        targetOrigin={{horizontal: 'left', vertical: 'top'}}
+        anchorEl={this.state.anchorEl}
+      />
+    );
+  }
+
   renderProfileCard() {
     const { firstName, lastName } = this.props.profile;
     return (
@@ -126,6 +161,7 @@ class Profile extends Component {
         <CardText>
           {this.props.profile.about || ''}
         </CardText>
+        {this.renderMessageButton()}
       </Card>
     );
   }
@@ -134,7 +170,6 @@ class Profile extends Component {
     if (!this.props.profile) {
       return <div></div>
     }
-
     return(
       <div id="profile-page-content">
         <SwipeableViews index={this.state.slideIndex} onChangeIndex={this.handleChange}>
@@ -142,6 +177,7 @@ class Profile extends Component {
           <div>{this.renderEditForm()}</div>
         </SwipeableViews>
         {this.renderEditTabs()}
+        {this.renderMessageBox()}
       </div>
     );
   }

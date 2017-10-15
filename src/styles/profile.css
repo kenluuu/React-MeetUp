@@ -3,8 +3,6 @@
   top: 85px;
 }
 
-
-
 #profile-card {
   max-width: 350px;
   margin: 0 auto;
@@ -16,14 +14,17 @@
 }
 
 #profile-edit-form-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
 }
 
 
-
+#message-btn-container {
+  display: flex;
+  justify-content: flex-end;
+}
 
 #tabs {
   position: fixed;

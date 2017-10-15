@@ -23,6 +23,7 @@ class Navbar extends Component {
       }
     }
   }
+
   onSignOut() {
     localStorage.removeItem('uid');
     this.setState({ newNotifications: 0 });
@@ -36,14 +37,13 @@ class Navbar extends Component {
           iconButtonElement={<FlatButton icon={<Notifiactions />} style={{ color: 'white', minWidth: '33px' }}/>}
           anchorOrigin={{horizontal: 'middle', vertical: 'bottom'}}
           onClick={this.checkedNotifications.bind(this)}
+          menuStyle={{ maxHeight: '500px' }}
         >
           {this.renderNotificationItem()}
         </IconMenu>
       </Badge>
     )
   }
-
-
 
   checkedNotifications() {
     this.props.editNotificationLength(localStorage.getItem('uid'), this.props.notifications.length);
@@ -55,7 +55,7 @@ class Navbar extends Component {
       const { eventUID, uid, eventCreatorID, note } = notification;
       return (
         <Link to={`/meetup/${eventUID}?user=${eventCreatorID}`} key={uid}>
-          <MenuItem  primaryText={note} style={{ width: '400px' }}/>
+          <MenuItem  primaryText={note} style={{ width: '400px' }} />
         </Link>
       );
     });

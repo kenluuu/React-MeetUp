@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { RaisedButton, CircularProgress } from 'material-ui';
+import Register from './components/Register';
+import Login from './components/Login';
+import * as actions from '../../actions';
 
-import * as actions from '../actions';
-import { TextField, RaisedButton, CircularProgress } from 'material-ui';
-import '../styles/signin.css';
+import '../../styles/signin.css';
 class Auth extends Component {
   constructor() {
     super();
@@ -72,43 +74,11 @@ class Auth extends Component {
 
   render() {
     const show = `${this.state.show ? 'block' : 'none'}`;
+    const { firstName, lastName, loading, email, password, inputChange } = this.props;
     return(
       <div id="content">
-        <TextField
-          hintText="First Name"
-          style={{ display: show }}
-          floatingLabelText="Please Enter First Name"
-          disabled={this.props.loading}
-          onChange={(event, value) => this.props.inputChange({ prop: 'firstName', value })}
-          value={this.props.firstName}
-        />
-        <br />
-        <TextField
-          hintText="Last Name"
-          disabled={this.props.loading}
-          style={{display: show}}
-          floatingLabelText="Please Enter Your Last Name"
-          onChange={(event, value) => this.props.inputChange({ prop: 'lastName', value })}
-          value={this.props.lastName}
-        />
-        <br />
-        <TextField
-          hintText="Email"
-          disabled={this.props.loading}
-          floatingLabelText="Please Enter Your Email"
-          onChange={(event, value) => this.props.inputChange({ prop: 'email', value })}
-          value={this.props.email}
-        />
-        <br />
-        <TextField
-          hintText="Password"
-          disabled={this.props.loading}
-          type="password"
-          floatingLabelText="Please Enter Your Password"
-          onChange={(event, value) => this.props.inputChange({ prop: 'password', value })}
-          value={this.props.password}
-        />
-
+        <Register show={show} firstName={firstName} lastName={lastName} loading={loading} inputChange={inputChange} />
+        <Login email={email} password={password} loading={loading} inputChange={inputChange} />
         {this.state.show ? this.renderRegisterBtn() : this.renderSigninBtn()}
         <br />
         <span id="error">{this.props.error}</span>
@@ -118,10 +88,12 @@ class Auth extends Component {
     )
   }
 }
+
 function mapStateToProps({ auth }) {
   const { firstName, lastName, email, password, error, loading } = auth;
   return { firstName, lastName, email, password, error, loading };
 }
+
 const styles = {
   btnStyle: {
     marginTop: '15px'

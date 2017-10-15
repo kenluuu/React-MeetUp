@@ -21,7 +21,7 @@ export default (state = INITIAL_STATE, action) => {
     case MEETUP_INPUT_CHANGE:
       return { ...state, [action.payload.prop]: action.payload.value };
     case FETCH_MEETUP:
-      return {  ...state, ...action.payload, loading: false };
+      return action.payload;
     case EDIT_MEETUP_SUCCESS:
       return { ...state, loading: false };
     case FETCH_CREATOR:
