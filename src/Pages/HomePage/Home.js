@@ -2,15 +2,16 @@ import React, { Component } from 'react';
 
 import _ from 'lodash';
 import { connect } from 'react-redux';
-import * as actions from '../actions';
-import MeetupCard from './MeetupCard';
+import * as actions from '../../actions';
+import MeetupCard from './components/MeetupCard';
+import '../../styles/home-card.css';
 
 
 class Home extends Component {
   componentDidMount() {
     const uid = localStorage.getItem('uid');
     this.props.fetchNotifications(uid);
-    this.props.fetchMeetups()
+
   }
   renderMeetups() {
     return this.props.meetups.map(meetup =>

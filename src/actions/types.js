@@ -16,6 +16,7 @@ export const FETCH_CREATOR = 'fetch_creator';
 export const DIALOG_CLEAR = 'dialog_clear';
 export const EDIT_MEETUP_SUCCESS = 'edit_meetup_success';
 export const FETCH_ATTENDING_USERS = 'fetch_attending_users';
+export const MEETUP_DELETED = 'meetup_deleted';
 
 //Profile types
 export const FETCH_PROFILE_INFO = 'fetch_profile_info';

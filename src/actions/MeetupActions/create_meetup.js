@@ -5,6 +5,7 @@ import { validate, addPhoto, clearForm } from '../utils';
 
 
 export const createMeetup = (meetupInfo, user, callback) => async dispatch => {
+  console.log(meetupInfo);
   const { name, location, img, date, time, description } = meetupInfo;
   const { firstName, lastName, userId, photo } = user;
 

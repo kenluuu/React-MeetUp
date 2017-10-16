@@ -3,18 +3,11 @@ import {
   FETCH_CREATOR,
   MEETUP_INPUT_CHANGE,
   EDIT_MEETUP_SUCCESS,
-  LOAD
+  LOAD,
+  MEETUP_DELETED
 } from '../actions/types';
 
-const INITIAL_STATE = {
-  name: '',
-  description: '',
-  location: '',
-  time: '',
-  date: '',
-  error: '',
-  loading: false
-};
+const INITIAL_STATE = null;
 
 export default (state = INITIAL_STATE, action) => {
   switch(action.type) {
@@ -29,6 +22,8 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, firstName, lastName };
     case LOAD:
       return { ...state, loading: true };
+    case MEETUP_DELETED:
+      return state;
     default:
       return state;
   }

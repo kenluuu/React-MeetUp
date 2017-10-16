@@ -5,9 +5,10 @@ import _ from 'lodash';
 import { Card, CardHeader, CardTitle, CardText, FontIcon, IconMenu, MenuItem, Dialog, RaisedButton } from 'material-ui';
 import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import MeetupForm from './MeetupForm';
-import * as actions from '../actions';
-import '../styles/meetup-page.css';
+import Form from '../../components/common/Form';
+import MeetupForm from '../../components/common/MeetupForm';
+import * as actions from '../../actions';
+import '../../styles/meetup-page.css';
 
 class Meetup extends Component {
   state = { open: false, attending: false, delete: false };
@@ -76,22 +77,24 @@ class Meetup extends Component {
   }
 
   renderMeetupForm() {
+    const { loading } = this.props.selectedMeetup;
     return (
       <Dialog
-        modal={this.props.selectedMeetup.loading}
+        modal={loading}
         open={this.state.open}
         onRequestClose={this.handleClose.bind(this)}
         autoScrollBodyContent={true}
       >
-        <MeetupForm style={styles.meetupForm} selectedMeetup={this.props.selectedMeetup}>
-          <RaisedButton
-            onClick={this.onEditMeetup.bind(this)}
-            primary
-            label="Edit Event"
-            style={{ marginTop: '30px' }}
-            disabled={this.props.selectedMeetup.loading}
-          />
-        </MeetupForm>
+        <Form style={styles.meetupForm} loading={loading}>
+          <MeetupForm />
+        </Form>
+        <RaisedButton
+          onClick={this.onEditMeetup.bind(this)}
+          primary
+          label="Edit Event"
+          style={{ marginTop: '30px' }}
+          disabled={this.props.selectedMeetup.loading}
+        />
       </Dialog>
     )
   }
@@ -135,7 +138,7 @@ class Meetup extends Component {
   }
 
   render() {
-    if (!this.props.selectedMeetup.name) {
+    if (!this.props.selectedMeetup) {
       return (
         <div>
         </div>
@@ -214,6 +217,7 @@ const styles = {
 };
 
 function mapStateToProps({ selectedMeetup, user, usersAttendingMeetup }) {
+  
   const usersAttendingMeetupArray = _.map(usersAttendingMeetup, (users, uid) => {
     return { ...users, uid };
 

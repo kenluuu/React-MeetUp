@@ -1,6 +1,7 @@
 import { MEETUP_INPUT_CHANGE } from '../types';
 
 export const meetupInputChange = ({ prop, value }) => {
+  console.log('meetupInputChange');
   if (prop === 'time') {
     value = value.toLocaleTimeString();
   } else if (prop === 'date') {

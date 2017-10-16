@@ -7,12 +7,12 @@ import * as actions from '../actions';
 import firebase from 'firebase';
 
 import config from '../config';
-import Home from './Home';
+import Home from '../Pages/HomePage/Home';
 import Auth from '../Pages/AuthPage/Auth';
 import Navbar from './Navbar';
-import CreateMeetup from './CreateMeetup';
-import Meetup from './Meetup';
-import Profile from './Profile';
+import CreateMeetup from '../Pages/CreateMeetupPage/CreateMeetup';
+import Meetup from '../Pages/MeetupPage/Meetup';
+import Profile from '../Pages/ProfilePage/Profile';
 import '../styles/app.css';
 
 class App extends Component {
@@ -25,6 +25,8 @@ class App extends Component {
     if (!this.props.user.userId && uid) {
       this.props.fetchCurrentUser(uid);
     }
+    this.props.fetchMeetups();
+    this.props.fetchNotifications(uid);
   }
 
 
