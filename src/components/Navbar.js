@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { AppBar, FlatButton, Badge, IconMenu, MenuItem } from 'material-ui';
+import { AppBar, FlatButton, Badge, IconMenu, MenuItem, IconButton, Drawer } from 'material-ui';
 import Person from 'material-ui/svg-icons/social/person';
 import Notifiactions from 'material-ui/svg-icons/social/notifications'
+import Menu from 'material-ui/svg-icons/navigation/menu';
 import { connect } from 'react-redux';
 import * as actions from '../actions'
 import { Link } from 'react-router-dom';
@@ -11,9 +12,20 @@ import '../styles/navbar.css'
 class Navbar extends Component {
   constructor(props) {
     super(props);
-    this.state = { newNotifications: 0 }
+    this.state = { newNotifications: 0, showMenu: false, open: false };
+  }
+  componentDidMount() {
+    this.updateDimensions();
+    window.addEventListener('resize', this.updateDimensions.bind(this));
   }
 
+  updateDimensions() {
+    if (window.innerWidth <= 760) {
+      this.setState({ showMenu: true });
+    } else if (window.innerWidth > 760) {
+      this.setState({ showMenu: false });
+    }
+  }
   componentWillReceiveProps(newProps) {
     const noteLength = localStorage.getItem('noteLength');
     if (noteLength >= 0 && newProps.notifications.length > 0) {
@@ -72,7 +84,7 @@ class Navbar extends Component {
     const userId = localStorage.getItem('uid');
     if (userId) {
       return (
-        <div>
+        <div id="button-layout">
           <Link to={`/profile/${userId}`}>
             <FlatButton id="profile-btn" icon={<Person />} label="Profile" style={{ color: 'white' }} onClick={() => this.props.fetchUserProfileInfo(userId)}/>
           </Link>
@@ -93,14 +105,39 @@ class Navbar extends Component {
     }
   }
 
+  renderDrawer() {
+    const uid = localStorage.getItem('uid');
+    if (uid) {
+      return (
+        <Drawer open={this.state.open} docked={false} onRequestChange={(open) => this.setState({open})} width={200}>
+          <Link to="/home"><MenuItem onClick={() => this.setState({ open: false })}>Home</MenuItem></Link>
+          <Link to={`/profile/${uid}`}><MenuItem onClick={() => this.setState({ open: false })}>Profile</MenuItem></Link>
+          <Link to="/create"><MenuItem onClick={() => this.setState({ open: false })}>Create</MenuItem></Link>
+          <Link to="/auth"><MenuItem onClick={() => this.onSignOut()}>Sign Out</MenuItem></Link>
+        </Drawer>
+      );
+    }
+    return (
+      <Drawer open={this.state.open} docked={false} onRequestChange={(open) => this.setState({open})} width={200}>
+        <Link to="/home"><MenuItem onClick={() => this.setState({ open: false })}>Home</MenuItem></Link>
+        <Link to="/auth"><MenuItem onClick={() => this.setState({ open: false })}>Sign In</MenuItem></Link>
+      </Drawer>
+    )
+  }
+
   render() {
     return(
       <div>
-        <AppBar style={{ position: 'fixed'}}>
+        <AppBar style={{ position: 'fixed'}}
+          iconElementLeft={<IconButton><Menu /></IconButton>}
+          iconStyleLeft={{ display: `${this.state.showMenu ? 'block' : 'none'}` }}
+          onLeftIconButtonTouchTap={() => this.setState({ open: !this.state.open })}
+        >
           <div id="button-layout">
-            <Link id="home" to="/"><FlatButton className="btn" label="Home" style={{ color: 'white'}}/></Link>
+            {<Link id="" to="/"><FlatButton className="btn" label="Home" style={{ color: 'white'}}/></Link>}
             {this.renderAuth()}
           </div>
+          {this.renderDrawer()}
         </AppBar>
       </div>
     );

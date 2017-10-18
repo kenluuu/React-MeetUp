@@ -1,8 +1,7 @@
 import React from 'react';
 import { TextField, RaisedButton } from 'material-ui';
-import Form from '../../../components/common/Form';
 const ProfileEditForm = (props) => {
-  
+
   const {
     imgURL, photo, loading, profileFormInputChange, location,
     about, firstName, lastName, onEditClick, onClick, renderSpinner, onUpload

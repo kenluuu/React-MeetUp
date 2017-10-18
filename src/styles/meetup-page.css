@@ -24,9 +24,8 @@
   display: block;
 }
 
-#icon-menu{
-  position: absolute;
-  right: 25%;
+#icon-menu {
+  float: right;
 }
 
 #users-going {

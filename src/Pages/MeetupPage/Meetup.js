@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
-import { Card, CardHeader, CardTitle, CardText, FontIcon, IconMenu, MenuItem, Dialog, RaisedButton } from 'material-ui';
+import { CardHeader, CardTitle, CardText, FontIcon, Card, IconMenu, MenuItem, Dialog, RaisedButton } from 'material-ui';
 import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import Form from '../../components/common/Form';
 import MeetupForm from '../../components/common/MeetupForm';
 import * as actions from '../../actions';
+
 import '../../styles/meetup-page.css';
 
 class Meetup extends Component {
@@ -21,19 +22,26 @@ class Meetup extends Component {
     this.props.fetchAttendingUsers(uid);
   }
 
-  renderIconMeun() {
+  renderIconMenu() {
     if (this.props.selectedMeetup.creatorID === this.props.user.userId) {
       return (
         <div id="icon-menu">
           <IconMenu
             iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
            >
-             <MenuItem  primaryText="Edit Event" onClick={() => this.setState({ open: true })} />
+             <MenuItem  primaryText="Edit Event" onClick={this.handleOpen.bind(this)} />
              <MenuItem primaryText="Delete Event" onClick={() => this.setState({ delete: true })} />
            </IconMenu>
         </div>
       );
     }
+  }
+
+  handleOpen() {
+    const { name, location, date, time, description } = this.props.selectedMeetup;
+    this.props.fillMeetupForm({ name, location, date, time, description });
+    this.setState({ open: true });
+
   }
   renderDelete() {
     return(
@@ -72,12 +80,14 @@ class Meetup extends Component {
 
   onEditMeetup() {
     const uid = this.props.match.params.id;
-    const { name, location, img, date, time, description } = this.props.selectedMeetup;
+    const { name, location, img, date, time, description } = this.props.meetupInfo;
     this.props.editMeetup({ name, location, img, date, time, description}, uid, this.handleClose.bind(this));
   }
 
   renderMeetupForm() {
-    const { loading } = this.props.selectedMeetup;
+
+    const { loading, name, description, location } = this.props.meetupInfo;
+    const { meetupInputChange } = this.props;
     return (
       <Dialog
         modal={loading}
@@ -85,16 +95,18 @@ class Meetup extends Component {
         onRequestClose={this.handleClose.bind(this)}
         autoScrollBodyContent={true}
       >
-        <Form style={styles.meetupForm} loading={loading}>
-          <MeetupForm />
-        </Form>
-        <RaisedButton
-          onClick={this.onEditMeetup.bind(this)}
-          primary
-          label="Edit Event"
-          style={{ marginTop: '30px' }}
-          disabled={this.props.selectedMeetup.loading}
-        />
+        <div className="center">
+          <Form loading={loading} path={this.props.match.path}>
+            <MeetupForm  meetupInputChange={meetupInputChange} name={name} description={description} location={location}/>
+          </Form>
+          <RaisedButton
+            onClick={this.onEditMeetup.bind(this)}
+            primary
+            label="Edit Event"
+            style={{ marginTop: '30px' }}
+            disabled={this.props.selectedMeetup.loading}
+          />
+        </div>
       </Dialog>
     )
   }
@@ -107,13 +119,11 @@ class Meetup extends Component {
         autoScrollBodyContent={true}
       >
         {this.props.usersAttendingMeetupArray.map(user => {
-
           return (
             <Link to={`/profile/${user.uid}`} key={user.uid} id="attending-link">
               <p id="attending-item">
                 <img id="attending-img" src={user.photo} alt="" />
                 <span id="attending-name">{user.firstName} {user.lastName}</span>
-
               </p>
             </Link>
           )
@@ -126,7 +136,6 @@ class Meetup extends Component {
     const uid = this.props.match.params.id;
     const { creatorID } = this.props.selectedMeetup;
     const { userId, firstName, lastName, photo } = this.props.user;
-
 
     if (creatorID === userId) {
         return <div></div>;
@@ -146,14 +155,13 @@ class Meetup extends Component {
     }
 
     const { firstName, lastName, location, date, name, time, description, imageURL } = this.props.selectedMeetup;
-
     return(
       <div id="meetup-page-content">
         <Card id="meetup-page-card">
-          {this.renderIconMeun()}
-          {this.renderMeetupForm()}
+          {this.renderIconMenu()}
           {this.renderAttending()}
           {this.renderDelete()}
+          {this.renderMeetupForm()}
           <CardHeader
             title={[
               <span id="organizer" key="org">Organizer:</span>,
@@ -216,12 +224,11 @@ const styles = {
   }
 };
 
-function mapStateToProps({ selectedMeetup, user, usersAttendingMeetup }) {
-  
+function mapStateToProps({ selectedMeetup, user, usersAttendingMeetup, meetupInfo }) {
   const usersAttendingMeetupArray = _.map(usersAttendingMeetup, (users, uid) => {
     return { ...users, uid };
 
   });
-  return { selectedMeetup, user, usersAttendingMeetup, usersAttendingMeetupArray };
+  return { selectedMeetup, user, usersAttendingMeetup, usersAttendingMeetupArray, meetupInfo };
 }
 export default connect(mapStateToProps, actions)(Meetup);

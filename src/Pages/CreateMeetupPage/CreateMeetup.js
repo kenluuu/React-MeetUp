@@ -21,12 +21,15 @@ class CreateMeetup extends Component {
   }
 
   render() {
-    const { loading, error } = this.props.meetupInfo;
+    const { loading, error, name, location, description } = this.props.meetupInfo;
     const { meetupInputChange } = this.props;
     return (
       <div id="create-meetup-content" className="center">
         <Form loading={loading} path={this.props.match.path}>
-          <MeetupForm loading={loading} meetupInputChange={meetupInputChange} error={error} />
+          <MeetupForm
+            loading={loading} meetupInputChange={meetupInputChange} error={error}
+            name={name} location={location} description={description}
+           />
         </Form>
         <RaisedButton
           primary
@@ -41,7 +44,6 @@ class CreateMeetup extends Component {
 }
 
 function mapStateToProps({ meetupInfo, user }) {
-  console.log(meetupInfo);
   return { meetupInfo, user };
 }
 

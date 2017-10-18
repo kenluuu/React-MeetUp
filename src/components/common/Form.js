@@ -18,7 +18,7 @@ class Form extends Component {
     fileReader.onload = () => {
       switch(path) {
         case "/create":
-           console.log('create');
+        case "/meetup/:id":
            this.props.meetupInputChange({ prop: 'img', value: file[0] });
            break;
         default:
@@ -60,6 +60,7 @@ class Form extends Component {
         imgURL: this.state.imgURL
       })
     });
+
     return (
       <div>
        {childWithProp}

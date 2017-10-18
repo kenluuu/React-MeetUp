@@ -7,7 +7,6 @@ import {
 } from './types';
 
 export const fetchUserProfileInfo = userId => dispatch => {
-
   firebase.database().ref(`/users/${userId}`)
     .on('value', snapshot => {
       dispatch({ type: FETCH_PROFILE_INFO, payload: snapshot.val() });
@@ -24,7 +23,6 @@ export const profileFormInputChange = ({ prop, value }) => {
 export const editProfile = (data, callback) => async dispatch => {
   dispatch({ type: LOAD });
   const { firstName, lastName, userId, about, img, location } = data;
-
   await firebase.database().ref(`users/${userId}`).update({ firstName, lastName, about, location });
   if (img) {
     const imageData = await firebase.storage().ref(`/users/${userId}`).put(img);

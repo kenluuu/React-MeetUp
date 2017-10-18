@@ -2,7 +2,11 @@ import React from 'react';
 import { TextField, RaisedButton, DatePicker, TimePicker } from 'material-ui';
 
 const MeetupForm = (props) => {
-  const { loading, meetupInputChange, renderImg, renderSpinner, onClick, onUpload, error } = props;
+  const {
+    loading, meetupInputChange, renderImg, renderSpinner,
+    onClick, onUpload, error, name, location, description
+  } = props;
+
   return (
     <div className="center">
       <TextField
@@ -10,23 +14,22 @@ const MeetupForm = (props) => {
         floatingLabelText="Enter Name Of The Event"
         onChange={(event, value) => meetupInputChange({ prop: 'name', value })}
         disabled={loading}
-
+        value={name}
       /><br />
       <TextField
         hintText="Description"
         floatingLabelText="Enter Description For Event"
         multiLine={true}
-        rows={2}
         onChange={(event, value) => meetupInputChange({ prop: 'description', value })}
         disabled={loading}
-
+        value={description}
       /><br />
       <TextField
         hintText="Location"
         floatingLabelText="Enter The Location Of The Event"
         onChange={(event, value) => meetupInputChange({ prop: 'location', value })}
         disabled={loading}
-
+        value={location}
       /><br />
       <RaisedButton
         primary
