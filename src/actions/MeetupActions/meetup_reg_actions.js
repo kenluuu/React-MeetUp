@@ -1,7 +1,10 @@
 import firebase from 'firebase';
 
-export const registerForMeetup = (uid, creatorID, user) => async dispatch => {
+export const registerForMeetup = (uid, creatorID, user, callback) => async dispatch => {
   const { userId, firstName, lastName, photo } = user;
+  if (!userId) {
+    return callback();
+  }
   const note = `${firstName} ${lastName} registered for your meetup.`
   await firebase.database().ref(`/usersGoingToMeetups/${uid}/${userId}`)
     .set({ firstName, lastName, photo });

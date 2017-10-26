@@ -8,6 +8,7 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import Form from '../../components/common/Form';
 import MeetupForm from '../../components/common/MeetupForm';
 import * as actions from '../../actions';
+import PageShell from '../../components/common/PageShell';
 
 import '../../styles/meetup-page.css';
 
@@ -136,13 +137,23 @@ class Meetup extends Component {
     const uid = this.props.match.params.id;
     const { creatorID } = this.props.selectedMeetup;
     const { userId, firstName, lastName, photo } = this.props.user;
-
     if (creatorID === userId) {
-        return <div></div>;
+      return <div></div>;
     } else if (this.props.usersAttendingMeetup[userId]) {
-      return <RaisedButton label="Unregister" secondary style={styles.regBtn} onClick={() => this.props.unregisterForMeetup(uid, userId, creatorID)}/>
+      return (
+        <RaisedButton
+          label="Unregister"
+          secondary style={styles.regBtn}
+          onClick={() => this.props.unregisterForMeetup(uid, userId, creatorID)}
+        />
+      );
     } else {
-      return <RaisedButton label="Register" secondary style={styles.regBtn} onClick={() => this.props.registerForMeetup(uid, creatorID, { firstName, lastName, userId, photo })} />
+      return (
+        <RaisedButton
+          label="Register"
+          secondary style={styles.regBtn}
+          onClick={() => this.props.registerForMeetup(uid, creatorID, { firstName, lastName, userId, photo }, () => this.props.history.push('/auth'))} />
+      );
     }
   }
 
@@ -231,4 +242,4 @@ function mapStateToProps({ selectedMeetup, user, usersAttendingMeetup, meetupInf
   });
   return { selectedMeetup, user, usersAttendingMeetup, usersAttendingMeetupArray, meetupInfo };
 }
-export default connect(mapStateToProps, actions)(Meetup);
+export default connect(mapStateToProps, actions)(PageShell(Meetup));

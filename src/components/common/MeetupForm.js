@@ -6,7 +6,6 @@ const MeetupForm = (props) => {
     loading, meetupInputChange, renderImg, renderSpinner,
     onClick, onUpload, error, name, location, description
   } = props;
-
   return (
     <div className="center">
       <TextField

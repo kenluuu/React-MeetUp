@@ -6,6 +6,7 @@ import * as actions from '../..//actions';
 import ProfileCard from './components/ProfileCard';
 import Form from '../../components/common/Form';
 import ProfileEditForm from './components/ProfileEditForm';
+import PageShell from '../../components/common/PageShell';
 import '../../styles/profile.css';
 
 class Profile extends Component {
@@ -30,7 +31,7 @@ class Profile extends Component {
   renderEditForm() {
     const { firstName, lastName, loading, location, photo, about } = this.props.profile;
     const { profileFormInputChange } = this.props;
-    
+
     return (
       <Form loading={loading}>
         <ProfileEditForm
@@ -42,9 +43,9 @@ class Profile extends Component {
     );
   }
   renderEditTabs() {
-    const profileUserId = this.props.match.params.id;
-    const userId = localStorage.getItem('uid');
-    if (userId === profileUserId) {
+    const { userId } = this.props.profile;
+    const uid = localStorage.getItem('uid');
+    if (uid === userId) {
       return (
         <Tabs id="tabs" onChange={this.handleChange} value={this.state.slideIndex}>
           <Tab label="Profile" value={0} />
@@ -66,8 +67,15 @@ class Profile extends Component {
       />
     );
   }
-
+  componentDidUpdate() {
+    const nextUserId = this.props.match.params.id;
+    const currentUserId = this.props.profile.userId;
+    if (nextUserId !== currentUserId) {
+      this.props.fetchUserProfileInfo(nextUserId);
+    }
+  }
   render() {
+
     if (!this.props.profile) {
       return <div></div>
     }
@@ -86,4 +94,4 @@ class Profile extends Component {
 function mapStateToProps({ profile }) {
   return { profile };
 }
-export default connect(mapStateToProps, actions)(Profile);
+export default connect(mapStateToProps, actions)(PageShell(Profile));

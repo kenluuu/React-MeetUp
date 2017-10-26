@@ -26,6 +26,7 @@ class Navbar extends Component {
       this.setState({ showMenu: false });
     }
   }
+  
   componentWillReceiveProps(newProps) {
     const noteLength = localStorage.getItem('noteLength');
     if (noteLength >= 0 && newProps.notifications.length > 0) {
@@ -39,6 +40,7 @@ class Navbar extends Component {
   onSignOut() {
     localStorage.removeItem('uid');
     this.setState({ newNotifications: 0 });
+    this.setState({ open: false });
     this.props.signOut();
   }
 
@@ -66,9 +68,14 @@ class Navbar extends Component {
     return this.props.notifications.map(notification => {
       const { eventUID, uid, eventCreatorID, note } = notification;
       return (
-        <Link to={`/meetup/${eventUID}?user=${eventCreatorID}`} key={uid}>
-          <MenuItem  primaryText={note} style={{ width: '400px' }} />
-        </Link>
+        <MenuItem  primaryText={note} style={{ width: '400px' }} key={uid}
+          onClick={() => {
+            this.props.history.push(`/meetup/${eventUID}/user=${eventCreatorID}`);
+            this.props.fetchMeetup(eventUID);
+            this.props.fetchCreator(eventCreatorID);
+            this.props.fetchAttendingUsers(eventUID);
+          }}
+        />
       );
     });
   }
@@ -110,7 +117,7 @@ class Navbar extends Component {
     if (uid) {
       return (
         <Drawer open={this.state.open} docked={false} onRequestChange={(open) => this.setState({open})} width={200}>
-          <Link to="/home"><MenuItem onClick={() => this.setState({ open: false })}>Home</MenuItem></Link>
+          <Link to="/"><MenuItem onClick={() => this.setState({ open: false })}>Home</MenuItem></Link>
           <Link to={`/profile/${uid}`}><MenuItem onClick={() => this.setState({ open: false })}>Profile</MenuItem></Link>
           <Link to="/create"><MenuItem onClick={() => this.setState({ open: false })}>Create</MenuItem></Link>
           <Link to="/auth"><MenuItem onClick={() => this.onSignOut()}>Sign Out</MenuItem></Link>
@@ -119,7 +126,7 @@ class Navbar extends Component {
     }
     return (
       <Drawer open={this.state.open} docked={false} onRequestChange={(open) => this.setState({open})} width={200}>
-        <Link to="/home"><MenuItem onClick={() => this.setState({ open: false })}>Home</MenuItem></Link>
+        <Link to="/"><MenuItem onClick={() => this.setState({ open: false })}>Home</MenuItem></Link>
         <Link to="/auth"><MenuItem onClick={() => this.setState({ open: false })}>Sign In</MenuItem></Link>
       </Drawer>
     )
@@ -144,7 +151,10 @@ class Navbar extends Component {
   }
 };
 
-function mapStateToProps({ user }) {
-  return { user };
+function mapStateToProps({ user, notifications }) {
+  notifications = _.map(notifications, (value, uid) => {
+    return { ...value, uid };
+  });
+  return { user, notifications };
 }
 export default connect(mapStateToProps, actions)(Navbar);

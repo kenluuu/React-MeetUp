@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
 import MeetupCard from './components/MeetupCard';
+import PageShell from '../../components/common/PageShell';
 import '../../styles/home-card.css';
 
 
@@ -38,4 +38,4 @@ function mapStateToProps({ meetups }) {
 
   return { meetups };
 }
-export default connect(mapStateToProps, actions)(Home);
+export default connect(mapStateToProps, actions)(PageShell(Home))

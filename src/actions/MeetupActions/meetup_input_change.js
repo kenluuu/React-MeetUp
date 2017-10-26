@@ -1,7 +1,6 @@
 import { MEETUP_INPUT_CHANGE } from '../types';
 
 export const meetupInputChange = ({ prop, value }) => {
-  console.log('meetupInputChange');
   if (prop === 'time') {
     value = value.toLocaleTimeString();
   } else if (prop === 'date') {
@@ -11,6 +10,7 @@ export const meetupInputChange = ({ prop, value }) => {
       year: 'numeric'
     });
   }
+  
   return {
     type: MEETUP_INPUT_CHANGE,
     payload: { prop, value }

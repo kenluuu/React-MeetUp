@@ -2,3 +2,10 @@ html, body {
   margin: 0;
   background-color: #fafafa;
 }
+.SlideIn-appear {
+  opacity: 0.01;
+}
+.SlideIn-appear-active {
+  opacity: 1;
+  transition: all 0.5s ease-in-out;
+}

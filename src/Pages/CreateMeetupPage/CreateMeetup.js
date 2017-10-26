@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../actions';
 import Form from '../../components/common/Form';
 import MeetupForm from '../../components/common/MeetupForm';
+import PageShell from '../../components/common/PageShell';
 import '../../styles/create-meetups.css';
 
 class CreateMeetup extends Component {
@@ -21,15 +22,12 @@ class CreateMeetup extends Component {
   }
 
   render() {
-    const { loading, error, name, location, description } = this.props.meetupInfo;
+    const { loading } = this.props.meetupInfo;
     const { meetupInputChange } = this.props;
     return (
       <div id="create-meetup-content" className="center">
         <Form loading={loading} path={this.props.match.path}>
-          <MeetupForm
-            loading={loading} meetupInputChange={meetupInputChange} error={error}
-            name={name} location={location} description={description}
-           />
+          <MeetupForm meetupInputChange={meetupInputChange} {...this.props.meetupInfo}/>
         </Form>
         <RaisedButton
           primary
@@ -48,4 +46,4 @@ function mapStateToProps({ meetupInfo, user }) {
 }
 
 
-export default connect(mapStateToProps, actions)(CreateMeetup);
+export default connect(mapStateToProps, actions)(PageShell(CreateMeetup));

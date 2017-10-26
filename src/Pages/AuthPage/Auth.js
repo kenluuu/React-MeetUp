@@ -4,6 +4,7 @@ import { RaisedButton, CircularProgress } from 'material-ui';
 import Register from './components/Register';
 import Login from './components/Login';
 import * as actions from '../../actions';
+import PageShell from '../../components/common/PageShell';
 
 import '../../styles/signin.css';
 class Auth extends Component {
@@ -99,4 +100,4 @@ const styles = {
     marginTop: '15px'
   }
 };
-export default connect(mapStateToProps, actions )(Auth);
+export default connect(mapStateToProps, actions )(PageShell(Auth));
