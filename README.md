@@ -5,4 +5,4 @@ React-Meetup - is a simple app that allows its users to make and join meetups. B
 
 To Run Locally just clone this repo and run npm install and npm run start.
 
-Checkout a live demo at: http://reactmeetup-env.us-west-1.elasticbeanstalk.com/
+Checkout a live demo at: https://s3-us-west-1.amazonaws.com/reactmeetup/build/index.html
